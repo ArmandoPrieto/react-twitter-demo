@@ -2,22 +2,21 @@ const Twitter = require('twitter');
 
 module.exports = (app, io) => {
     let twitter = new Twitter({
-        consumer_key: process.env.TWITTER_CONSUMER_KEY,
-        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-        access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-        access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+        consumer_key: "EeszTyt0yUWZo5do92YMY3lQq",
+        consumer_secret: "0RUgwJk4IKAZ1njkmAZJp01avI8AXSM27ugv4dDDUT5Ikc2YUg",
+        access_token_key: "67214262-tQyj1M1WaNKrQaVEZD8nYu2Rb6Ht9sWOxr07GSlEq",
+        access_token_secret: "UfJtEqDVuhFrU8qlAzarhdOlnLEFetCet3qHC68v2vF0F"
     });
 
     let socketConnection;
     let twitterStream;
 
-    app.locals.searchTerm = 'JavaScript'; //Default search term for twitter stream.
+    app.locals.searchTerm = 'Guaido'; //Default search term for twitter stream.
     app.locals.showRetweets = false; //Default
 
-    /**
-     * Resumes twitter stream.
-     */
-    const stream = () => {
+   
+
+    /*const stream = () => {
         console.log('Resuming for ' + app.locals.searchTerm);
         twitter.stream('statuses/filter', { track: app.locals.searchTerm }, (stream) => {
             stream.on('data', (tweet) => {
@@ -30,7 +29,22 @@ module.exports = (app, io) => {
 
             twitterStream = stream;
         });
+    }*/
+
+    const stream = () => {
+        console.log('Resuming for ' + app.locals.searchTerm);
+        twitter.get('search/tweets', { q: app.locals.searchTerm }, (error, tweets,response) => {
+            if (!error) {
+                console.log(response);
+                tweets.statuses.forEach(element => {
+                    sendMessage(element);    
+                    twitterStream = response;
+                });
+                
+            }
+        });
     }
+
 
     /**
      * Sets search term for twitter stream.
@@ -76,4 +90,6 @@ module.exports = (app, io) => {
         }
         socketConnection.emit("tweets", msg);
     }
+
+
 };
