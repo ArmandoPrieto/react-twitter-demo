@@ -1,5 +1,5 @@
 ## Based on this tutorial
-[https://javascriptstore.com/2018/03/18/stream-tweets-with-react-express-socket-io-and-twitter/]
+https://javascriptstore.com/2018/03/18/stream-tweets-with-react-express-socket-io-and-twitter/
 
 ## Available Scripts
 
